@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+
+.mypy_cache/
+.pytest_cache/
+.idea/
+dist/
+
+.env
+
+# pyenv
+.python-version
+
+# poetry
+poetry.lock

@@ -1,0 +1,96 @@
+# BLACK
+[tool.black]
+target-version = ["py311"]
+line-length = 120
+
+# ISORT
+[tool.isort]
+py_version = 311
+line_length = 120
+profile = "black"
+atomic = true
+lines_after_imports = 2
+combine_as_imports = true
+force_alphabetical_sort_within_sections = true
+
+# MYPY
+[tool.mypy]
+python_version = 3.11
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+follow_imports = "silent"
+namespace_packages = false
+
+# PYLINT
+[tool.pylint.main]
+py-version = 3.11
+load-plugins = [
+    "pylint.extensions.bad_builtin",
+    "pylint.extensions.check_elif",
+    "pylint.extensions.comparison_placement",
+    "pylint.extensions.dict_init_mutate",
+    "pylint.extensions.docstyle",
+    "pylint.extensions.empty_comment",
+    "pylint.extensions.for_any_all",
+    "pylint.extensions.mccabe",
+    "pylint.extensions.no_self_use",
+    "pylint.extensions.private_import",
+    "pylint.extensions.redefined_loop_name",
+    "pylint.extensions.redefined_variable_type",
+    "pylint.extensions.typing",
+]
+
+[tool.pylint.logging]
+logging-format-style = "new"
+
+[tool.pylint.format]
+max-line-length = 120
+expected-line-ending-format = "LF"
+
+[tool.pylint.messages_control]
+disable = """
+    docstring-first-line-empty,
+    fixme,
+    import-outside-toplevel,
+    missing-class-docstring,
+    missing-module-docstring,
+    no-name-in-module,
+    too-few-public-methods,
+"""
+
+# PYTEST
+[tool.pytest.ini_options]
+pythonpath = ["."]
+spark_options = ["spark.sql.session.timeZone: UTC"]
+
+# POETRY
+[tool.poetry]
+name = "databr_pipelines"
+version = "0.0.1"
+description = "Some description"
+readme = "README.md"
+authors = ["alex7c4"]
+packages = [
+    {include = "src/pipelines_lib"},
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.12"
+databricks-sdk = "*"
+prefect = "2.11.*"
+python-dotenv = "*"
+pydantic = "1.*"
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+isort = "*"
+mypy = "*"
+pylint = "*"
+pyspark = "3.4.*"
+pytest = "*"
+pytest-spark = "*"
