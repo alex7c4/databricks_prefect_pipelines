@@ -22,6 +22,9 @@ checks:
 	poetry run mypy ./src ./tests
 	poetry run pylint ./src ./tests
 
+pytest_ci:
+	poetry run pytest -v --disable-warnings --color=yes ./tests
+
 pytest:
 	poetry run pytest --cache-clear --capture=no --verbose --disable-warnings --color=yes ./tests
 
