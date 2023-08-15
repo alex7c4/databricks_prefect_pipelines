@@ -24,8 +24,6 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
 
-
-
 #      - name: Load cached Poetry installation
 #        id: cached_poetry
 #        uses: actions/cache@v3
@@ -51,9 +49,9 @@ jobs:
 #          key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       # install dependencies if cache does not exist
-#      - name: Install dependencies
+      - name: Install dependencies
 #        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-#        run: poetry install --no-interaction
+        run: poetry install --no-interaction
 
       # tests
       - name: Static checks
