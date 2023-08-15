@@ -1,5 +1,7 @@
 Training project to make Prefect managed Databricks pipelines.
+CI should run checks and tests and, if successful, deploy the notebooks to the Databriks server.
 
+---
 WIP:
 
 ```shell
