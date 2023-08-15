@@ -1,19 +1,36 @@
 name: GitHub Actions CI
 
-on: [push]
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  RUN_ENV: CI
+
 jobs:
-  build:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
-        id: py311
+        id: setup_python
         with:
           python-version: '3.11'
+          cache: 'poetry'
+
+#      - name: Load cached Poetry installation
+#        id: cached_poetry
+#        uses: actions/cache@v3
+#        with:
+#          path: ~/.local
+#          key: poetry-0
 
       - name: Install and configure Poetry
+#        if: steps.cached_poetry.outputs.cache-hit != 'true'
         uses: snok/install-poetry@v1
         with:
           version: latest
@@ -21,22 +38,22 @@ jobs:
           virtualenvs-in-project: true
           installer-parallel: true
 
-      # load cached venv if cache exists
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.py311.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+#      # load cached venv if cache exists
+#      - name: Load cached venv
+#        id: cached-poetry-dependencies
+#        uses: actions/cache@v3
+#        with:
+#          path: .venv
+#          key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       # install dependencies if cache does not exist
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+#        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction
 
       # tests
       - name: Static checks
-        run: source .venv/bin/activate && make checks
+        run: make checks
 
       - name: Unit tests
-        run: source .venv/bin/activate && make pytest_ci
+        run: make pytest_ci
