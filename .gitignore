@@ -10,6 +10,3 @@ dist/
 
 # pyenv
 .python-version
-
-# poetry
-poetry.lock
