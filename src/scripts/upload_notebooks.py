@@ -9,25 +9,44 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+PIPELINES_PATH = Path("src/pipelines")
 
-w = WorkspaceClient(
-    host=os.environ.get("DATABRICKS_HOST"),
-    username=os.environ.get("DATABRICKS_USERNAME"),
-    password=os.environ.get("DATABRICKS_PASSWORD"),
-)
 
-# pipelines = Path("./src/pipelines").rglob("*.py")
-# existing = list(workspace.workspace.list(path="/Users/alex-7c4@ya.ru/"))
+def main():
+    """Main logic"""
+    db_username = os.environ.get("DATABRICKS_USERNAME")
+    if not db_username:
+        raise ValueError("Environment variable 'DATABRICKS_USERNAME' is empty.")
 
-local_notebook_path = Path("./src/pipelines/some/some_notebook.py")
-w.workspace.mkdirs(path="/Users/alex-7c4@ya.ru/test/")
+    workspace_client = WorkspaceClient(
+        host=os.environ.get("DATABRICKS_HOST"),
+        username=db_username,
+        password=os.environ.get("DATABRICKS_PASSWORD"),
+    )
 
-upload_res = w.workspace.upload(
-    path="/Users/alex-7c4@ya.ru/test/some_notebook",
-    content=local_notebook_path.read_bytes(),
-    format=ImportFormat.SOURCE,
-    language=Language.PYTHON,
-    overwrite=True,
-)
+    # get all PY-files under pipelines dir
+    py_files = PIPELINES_PATH.rglob("*.py")
+    # prepare future Databricks' directory full path
+    py_files_dirs = [(Path(f"/Users/{db_username}") / x.parent.relative_to(PIPELINES_PATH), x) for x in py_files]
 
-print("--DONE--")
+    # create directory in databricks
+    for db_dir in {x[0] for x in py_files_dirs}:
+        # db_dir_path = f"/Users/{db_username}/{pipeline_dir}"
+        print(f"Creating remote directory: '{db_dir}'")
+        workspace_client.workspace.mkdirs(path=db_dir.as_posix())
+
+    # upload notebook
+    for db_dir, local_file_path in py_files_dirs:
+        print(f"Uploading: '{local_file_path}'")
+        workspace_client.workspace.upload(
+            path=(db_dir / local_file_path.name).as_posix(),
+            content=local_file_path.read_bytes(),
+            format=ImportFormat.SOURCE,
+            language=Language.PYTHON,
+            overwrite=True,
+        )
+
+
+if __name__ == "__main__":
+    main()
+    print("--DONE--")
