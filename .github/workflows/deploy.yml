@@ -1,7 +1,9 @@
 name: Upload files to Databricks
 
 on:
-  push:
+#  push:
+#    branches: [ master ]
+  pull_request:
     branches: [ master ]
 
 env:
