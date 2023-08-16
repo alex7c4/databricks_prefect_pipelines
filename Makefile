@@ -23,7 +23,7 @@ checks:
 	poetry run pylint ./src ./tests
 
 pytest_ci:
-	poetry run pytest --disable-warnings -v --color=yes ./tests
+	poetry run pytest -sv --junit-xml junit/test-results.xml ./tests
 
 pytest:
 	poetry run pytest --cache-clear --capture=no --verbose --disable-warnings --color=yes ./tests
