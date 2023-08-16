@@ -1,10 +1,8 @@
 name: Upload files to Databricks
 
 on:
-  workflow_run:
-    workflows: [ "Checks and Tests" ]
+  push:
     branches: [ master ]
-    types: [ completed ]
 
 env:
   EXECUTION_ENV: 'CI'
@@ -12,28 +10,26 @@ env:
   POETRY_VERSION: '1.5.*'
 
 jobs:
-  uploads:
+
+  check-upload:
     environment: deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Poetry
-        run: pip install -U poetry==${{ env.POETRY_VERSION }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        id: setup_python
+      - name: Install Python with dependencies
+        uses: .github/actions/setup_python
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: 'poetry'
-          cache-dependency-path: '**/poetry.lock'
+          poetry-version: ${{ env.POETRY_VERSION }}
 
-      - name: Set Poetry environment
-        run: poetry env use ${{ env.PYTHON_VERSION }}
+      # run checks
+      - name: Static checks
+        run: make checks
 
-      - name: Install dependencies
-        run: poetry install --no-interaction
+      # run tests
+      - name: Unit tests
+        run: make pytest_ci
 
       # run upload notebooks to Databricks
       - name: Upload notebooks to Databricks
