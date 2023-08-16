@@ -18,7 +18,7 @@ jobs:
       - name: Install Python with dependencies
         uses: ./.github/actions/setup_python
         with:
-          python-versio: ${{ env.PYTHON_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
           poetry-version: ${{ env.POETRY_VERSION }}
 
       # run checks
