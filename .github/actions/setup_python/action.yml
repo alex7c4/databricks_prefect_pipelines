@@ -15,6 +15,7 @@ runs:
   steps:
     - name: Install Poetry
       run: pip install -U poetry==${{ inputs.poetry-version }}
+      shell: bash
 
     - name: Install Python ${{ inputs.python-version }}
       uses: actions/setup-python@v4
@@ -26,6 +27,8 @@ runs:
 
     - name: Set Poetry environment
       run: poetry env use ${{ inputs.python-version }}
+      shell: bash
 
     - name: Install dependencies
       run: poetry install --no-interaction
+      shell: bash
