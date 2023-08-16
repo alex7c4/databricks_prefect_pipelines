@@ -1,4 +1,4 @@
-name: Upload files to Databricks
+name: Check and Upload to Databricks
 
 on:
   push:
@@ -10,7 +10,6 @@ env:
   POETRY_VERSION: '1.5.*'
 
 jobs:
-
   check-upload:
     environment: deploy
     runs-on: ubuntu-latest
@@ -23,15 +22,19 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           poetry-version: ${{ env.POETRY_VERSION }}
 
-      # run checks
       - name: Static checks
         run: make checks
 
-      # run tests
       - name: Unit tests
         run: make pytest_ci
 
-      # run upload notebooks to Databricks
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: pytest-results-${{ github.sha }}
+          path: junit/test-results.xml
+        if: ${{ always() }}
+
       - name: Upload notebooks to Databricks
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}

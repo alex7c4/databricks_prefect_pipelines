@@ -21,10 +21,15 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           poetry-version: ${{ env.POETRY_VERSION }}
 
-      # run checks
       - name: Static checks
         run: make checks
 
-      # run tests
       - name: Unit tests
         run: make pytest_ci
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: pytest-results-${{ github.sha }}
+          path: junit/test-results.xml
+        if: ${{ always() }}
