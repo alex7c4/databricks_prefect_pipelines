@@ -41,4 +41,4 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_USERNAME: ${{ secrets.DATABRICKS_USERNAME }}
           DATABRICKS_PASSWORD: ${{ secrets.DATABRICKS_PASSWORD }}
-        run: poetry run src/scripts/upload_notebooks.py
+        run: poetry run python3 src/scripts/upload_notebooks.py
