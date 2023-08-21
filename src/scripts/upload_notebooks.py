@@ -1,4 +1,5 @@
-"""Some module docstring"""
+"""Script to upload pipelines to Databricks"""
+# pylint: disable=duplicate-code
 import os
 from pathlib import Path
 
@@ -15,13 +16,18 @@ PIPELINES_PATH = Path("src/pipelines")
 def main():
     """Main logic"""
     db_username = os.environ.get("DATABRICKS_USERNAME")
+    db_token = os.environ.get("DATABRICKS_TOKEN")
+    db_password = os.environ.get("DATABRICKS_PASSWORD")
+
     if not db_username:
         raise ValueError("Environment variable 'DATABRICKS_USERNAME' is empty.")
 
     workspace_client = WorkspaceClient(
         host=os.environ.get("DATABRICKS_HOST"),
         username=db_username,
-        password=os.environ.get("DATABRICKS_PASSWORD"),
+        token=db_token,
+        password=db_password,
+        auth_type="pat" if db_token else "basic",
     )
 
     # get all PY-files under pipelines dir
