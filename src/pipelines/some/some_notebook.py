@@ -1,9 +1,5 @@
 # Databricks notebook source
-# MAGIC %pip install --progress-bar=off -U /dbfs/FileStore/jars/databricks_pipelines-0.0.1-py3-none-any.whl
-
-# COMMAND ----------
-
-# MAGIC %pip install --force-reinstall --no-deps /dbfs/FileStore/jars/databricks_pipelines-0.0.1-py3-none-any.whl
+# MAGIC %pip install --force-reinstall -U /dbfs/FileStore/jars/databricks_pipelines-0.0.1-py3-none-any.whl
 
 # COMMAND ----------
 
@@ -48,7 +44,8 @@ def transform(source_df: DataFrame) -> DataFrame:
 
 
 def write_result(result_df: DataFrame, write_path: str):
-    """Imitate DF writing"""
+    """Write DF"""
+    print(f"Write DF to '{write_path}'")
     (
         result_df.coalesce(1)
         .write
