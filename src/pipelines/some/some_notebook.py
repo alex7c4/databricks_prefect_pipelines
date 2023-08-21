@@ -1,14 +1,9 @@
 # Databricks notebook source
-# MAGIC %fs cp 'dbfs:/FileStore/jars/databr_pipelines-0.0.1-py3-none-any.whl'
-# MAGIC 'file:/tmp/databr_pipelines-0.0.1-py3-none-any.whl'
+# MAGIC %pip install --progress-bar=off -U /dbfs/FileStore/jars/databricks_pipelines-0.0.1-py3-none-any.whl
 
 # COMMAND ----------
 
-# MAGIC %pip install --progress-bar=off -U /tmp/databr_pipelines-0.0.1-py3-none-any.whl
-
-# COMMAND ----------
-
-# MAGIC %pip install --force-reinstall --no-deps /tmp/databr_pipelines-0.0.1-py3-none-any.whl
+# MAGIC %pip install --force-reinstall --no-deps /dbfs/FileStore/jars/databricks_pipelines-0.0.1-py3-none-any.whl
 
 # COMMAND ----------
 
@@ -22,12 +17,15 @@ from src.pipelines_lib.spark import get_spark
 
 class Config:
     def __init__(self):
+        # set widget data
         get_dbutils().widgets.text(
-            name="source_path",
-            defaultValue="dbfs:/databricks-datasets/samples/population-vs-price/data_geo.csv",
+            name="source_path", defaultValue="dbfs:/databricks-datasets/samples/population-vs-price/data_geo.csv"
         )
+        get_dbutils().widgets.text(name="write_path", defaultValue="dbfs:/mnt/my_data/2015_median_sales_price_avg")
 
+        # get widget data
         self.source_path = get_dbutils().widgets.get("source_path")
+        self.write_path = get_dbutils().widgets.get("write_path")
         self.source_df = get_spark().read.csv(
             path=self.source_path, schema=PopulationVsPriceSchema.spark_schema(), header=True, mode="FAILFAST"
         )
@@ -49,9 +47,17 @@ def transform(source_df: DataFrame) -> DataFrame:
     return result_df
 
 
-def write_result(result_df: DataFrame):
+def write_result(result_df: DataFrame, write_path: str):
     """Imitate DF writing"""
-    result_df.show(100, truncate=False)
+    (
+        result_df.coalesce(1)
+        .write
+        .format("delta")
+        .mode("overwrite")
+        .save(path=write_path)
+    )  # fmt: skip
+    # show
+    result_df.show(n=100, truncate=False)
 
 
 # COMMAND ----------
@@ -61,7 +67,7 @@ def main():
     """Main logic"""
     config = Config()
     result_df = transform(source_df=config.source_df)
-    write_result(result_df)
+    write_result(result_df, write_path=config.write_path)
 
 
 if __name__ == "__main__":

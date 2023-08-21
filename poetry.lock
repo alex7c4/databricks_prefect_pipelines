@@ -407,13 +407,13 @@ files = [
 
 [[package]]
 name = "click"
-version = "8.1.6"
+version = "8.1.7"
 description = "Composable command line interface toolkit"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "click-8.1.6-py3-none-any.whl", hash = "sha256:fa244bb30b3b5ee2cae3da8f55c9e5e0c0e86093306301fb418eb9dc40fbded5"},
-    {file = "click-8.1.6.tar.gz", hash = "sha256:48ee849951919527a045bfe3bf7baa8a959c423134e1a5b98c05c20ba75a1cbd"},
+    {file = "click-8.1.7-py3-none-any.whl", hash = "sha256:ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28"},
+    {file = "click-8.1.7.tar.gz", hash = "sha256:ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de"},
 ]
 
 [package.dependencies]
@@ -513,13 +513,13 @@ test-randomorder = ["pytest-randomly"]
 
 [[package]]
 name = "databricks-sdk"
-version = "0.5.0"
+version = "0.6.0"
 description = "Databricks SDK for Python (Beta)"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "databricks-sdk-0.5.0.tar.gz", hash = "sha256:6782f3ce244836dca525e9672e6e5d1fe8d72f697c5eb644664f52d8a69d54d4"},
-    {file = "databricks_sdk-0.5.0-py3-none-any.whl", hash = "sha256:42267ca1e4b5969bf32fa494876d6b8f14a8b9df8d5dcc5e5c3b68a6d5e0a5e2"},
+    {file = "databricks-sdk-0.6.0.tar.gz", hash = "sha256:791f4f0809eb3920ef4ef0a6b20a42673efd0deef1b2e73c3ec63aca8e3632fa"},
+    {file = "databricks_sdk-0.6.0-py3-none-any.whl", hash = "sha256:be764382c4226ad81ef5576b304db77f9250fc216604752be37be11de0928c16"},
 ]
 
 [package.dependencies]
@@ -690,6 +690,22 @@ reauth = ["pyu2f (>=0.1.5)"]
 requests = ["requests (>=2.20.0,<3.0.0dev)"]
 
 [[package]]
+name = "graphviz"
+version = "0.20.1"
+description = "Simple Python interface for Graphviz"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "graphviz-0.20.1-py3-none-any.whl", hash = "sha256:587c58a223b51611c0cf461132da386edd896a029524ca61a1462b880bf97977"},
+    {file = "graphviz-0.20.1.zip", hash = "sha256:8c58f14adaa3b947daf26c19bc1e98c4e0702cdc31cf99153e6f06904d492bf8"},
+]
+
+[package.extras]
+dev = ["flake8", "pep8-naming", "tox (>=3)", "twine", "wheel"]
+docs = ["sphinx (>=5)", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
+test = ["coverage", "mock (>=4)", "pytest (>=7)", "pytest-cov", "pytest-mock (>=3)"]
+
+[[package]]
 name = "greenlet"
 version = "2.0.2"
 description = "Lightweight in-process concurrent programming"
@@ -764,13 +780,13 @@ test = ["objgraph", "psutil"]
 
 [[package]]
 name = "griffe"
-version = "0.33.0"
+version = "0.34.0"
 description = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "griffe-0.33.0-py3-none-any.whl", hash = "sha256:16af15d0140c0a5f0b2628d33235fef91a6d8a832dd7cff5759dfe6b7d7a7a49"},
-    {file = "griffe-0.33.0.tar.gz", hash = "sha256:783bcb7e7f0d346fcb0cb8072667ca8f6ce7ff776bb278fbccf8a3a753a793e4"},
+    {file = "griffe-0.34.0-py3-none-any.whl", hash = "sha256:d8bca9bd4a0880e7f71dc152de4222171d941a32b5504d77450a71a7908dfc1d"},
+    {file = "griffe-0.34.0.tar.gz", hash = "sha256:48c667ad51a7f756238f798866203aeb8f9fa02d4192e25970f57f813bb37f26"},
 ]
 
 [package.dependencies]
@@ -1425,13 +1441,13 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "prefect"
-version = "2.11.3"
+version = "2.11.4"
 description = "Workflow orchestration and management."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "prefect-2.11.3-py3-none-any.whl", hash = "sha256:aad9db1de0bb7a6f0a52302ad508454dedbb412090f839efc4e905c271ce5dc0"},
-    {file = "prefect-2.11.3.tar.gz", hash = "sha256:78c2a15770d821f8fc89b8fdd729bd7346d024d476fc42bf172671bcd4c7d331"},
+    {file = "prefect-2.11.4-py3-none-any.whl", hash = "sha256:d40af8cc6e4d3c3841fb0b90dedcea5381a2cbc821acaaa398025754ed78dd62"},
+    {file = "prefect-2.11.4.tar.gz", hash = "sha256:bcc7d5b23665bbb97d87c0cd44a9e8147a987aeb1a1455019d1efbebde2b6064"},
 ]
 
 [package.dependencies]
@@ -1450,6 +1466,7 @@ dateparser = ">=1.1.1"
 docker = ">=4.0"
 fastapi = ">=0.93"
 fsspec = ">=2022.5.0"
+graphviz = ">=0.20.1"
 griffe = ">=0.20.0"
 httpx = {version = ">=0.23,<0.23.2 || >0.23.2", extras = ["http2"]}
 jinja2 = ">=3.0.0"
@@ -2183,17 +2200,17 @@ files = [
 
 [[package]]
 name = "setuptools"
-version = "68.1.0"
+version = "68.1.2"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "setuptools-68.1.0-py3-none-any.whl", hash = "sha256:e13e1b0bc760e9b0127eda042845999b2f913e12437046e663b833aa96d89715"},
-    {file = "setuptools-68.1.0.tar.gz", hash = "sha256:d59c97e7b774979a5ccb96388efc9eb65518004537e85d52e81eaee89ab6dd91"},
+    {file = "setuptools-68.1.2-py3-none-any.whl", hash = "sha256:3d8083eed2d13afc9426f227b24fd1659489ec107c0e86cec2ffdde5c92e790b"},
+    {file = "setuptools-68.1.2.tar.gz", hash = "sha256:3d4dfa6d95f1b101d695a6160a7626e15583af71a5f52176efa5d39a054d475d"},
 ]
 
 [package.extras]
-docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-hoverxref (<2)", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (==0.8.3)", "sphinx-reredirects", "sphinxcontrib-towncrier"]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "rst.linker (>=1.9)", "sphinx (>=3.5,<=7.1.2)", "sphinx-favicon", "sphinx-hoverxref (<2)", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (==0.8.3)", "sphinx-reredirects", "sphinxcontrib-towncrier"]
 testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[lite] (>=0.9)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pip (>=19.1)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-perf", "pytest-ruff", "pytest-timeout", "pytest-xdist", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel"]
 testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
@@ -2636,4 +2653,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.12"
-content-hash = "bb0b9c1aaa40a04eed11075fec76f74ec9bfad5b2d5d98ef09e0d7d1e79e4101"
+content-hash = "6a577766b866ce573a45d4bb34cb820c6f4cfeb90aee30de92b0dc91c503ca7f"
