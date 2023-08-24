@@ -38,9 +38,9 @@ jobs:
       - name: Upload notebooks to Databricks
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_USERNAME: ${{ secrets.DATABRICKS_USERNAME }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           DATABRICKS_PASSWORD: ${{ secrets.DATABRICKS_PASSWORD }}
+          DATABRICKS_AUTH_TYPE: "pat"
         run: poetry run python3 src/scripts/upload_notebooks.py
 
       - name: Build and upload Python lib to Databricks
@@ -49,6 +49,7 @@ jobs:
           DATABRICKS_USERNAME: ${{ secrets.DATABRICKS_USERNAME }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           DATABRICKS_PASSWORD: ${{ secrets.DATABRICKS_PASSWORD }}
+          DATABRICKS_AUTH_TYPE: "pat"
         run: poetry run python3 src/scripts/build_upload_lib.py
 
       - name: Deploy Prefect Flows to Prefect Cloud
