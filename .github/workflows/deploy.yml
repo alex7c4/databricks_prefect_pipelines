@@ -50,3 +50,9 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           DATABRICKS_PASSWORD: ${{ secrets.DATABRICKS_PASSWORD }}
         run: poetry run python3 src/scripts/build_upload_lib.py
+
+      - name: Deploy Prefect Flows to Prefect Cloud
+        env:
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+          PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+        run: poetry run python3 src/flows/one.py && poetry run python3 src/flows/two.py

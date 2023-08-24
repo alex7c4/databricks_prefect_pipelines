@@ -33,7 +33,7 @@ def main():
     # get all PY-files under pipelines dir
     py_files = PIPELINES_PATH.rglob("*.py")
     # prepare future Databricks' directory full path
-    py_files_dirs = [(Path(f"/Users/{db_username}") / x.parent.relative_to(PIPELINES_PATH), x) for x in py_files]
+    py_files_dirs = [(Path("/master") / x.parent.relative_to(PIPELINES_PATH), x) for x in py_files]
 
     # create directory in databricks
     for db_dir in {x[0] for x in py_files_dirs}:
@@ -45,7 +45,7 @@ def main():
     for db_dir, local_file_path in py_files_dirs:
         print(f"Uploading: '{local_file_path}'")
         workspace_client.workspace.upload(
-            path=(db_dir / local_file_path.name).as_posix(),
+            path=(db_dir / local_file_path.stem).as_posix(),
             content=local_file_path.read_bytes(),
             format=ImportFormat.SOURCE,
             language=Language.PYTHON,

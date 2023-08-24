@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %pip install --force-reinstall -U /dbfs/FileStore/jars/databricks_pipelines-0.0.1-py3-none-any.whl
+# MAGIC %pip install -U /dbfs/FileStore/jars/databricks_pipelines-0.0.1.tar.gz
 
 # COMMAND ----------
 
@@ -57,6 +57,15 @@ def write_result(result_df: DataFrame, write_path: str):
     result_df.show(n=100, truncate=False)
 
 
+def optimize(write_path: str):
+    """Optimize and vacuum delta table"""
+    from delta.tables import DeltaTable  # pylint: disable=import-error
+
+    delta_table = DeltaTable.forPath(get_spark(), write_path)
+    delta_table.optimize().executeCompaction()
+    delta_table.vacuum()
+
+
 # COMMAND ----------
 
 
@@ -65,6 +74,7 @@ def main():
     config = Config()
     result_df = transform(source_df=config.source_df)
     write_result(result_df, write_path=config.write_path)
+    optimize(write_path=config.write_path)
 
 
 if __name__ == "__main__":

@@ -4,15 +4,13 @@ services:
   agent:
     image: prefecthq/prefect:2-python3.11
     restart: always
-    entrypoint: [
-      "/usr/bin/bash", "-c",
-      "/opt/prefect/entrypoint.sh &&
-      prefect cloud login --key ${PREFECT_API_KEY} --workspace ${PREFECT_WORKSPACE} &&
-      prefect agent start --pool default-agent-pool --work-queue default",
-    ]
+    command: prefect agent start --pool default-agent-pool --work-queue default
     environment:
-      EXTRA_PIP_PACKAGES: s3fs
-      # PREFECT_API_KEY -- not working for cloud connection (bug?)
+      EXTRA_PIP_PACKAGES: adlfs databricks-sdk
+      PREFECT_API_KEY: ${PREFECT_API_KEY}
+      PREFECT_API_URL: ${PREFECT_API_URL}
+      DATABRICKS_HOST: ${DATABRICKS_HOST}
+      DATABRICKS_TOKEN: ${DATABRICKS_TOKEN}
 
   # Prefect CLI
   cli:
@@ -22,25 +20,11 @@ services:
     volumes:
       - "./src/flows:/root/flows"
     environment:
-      EXTRA_PIP_PACKAGES: s3fs
-
-  # MinIO for flow storage
-  minio:
-    image: minio/minio:latest
-    command: minio server /data
-    environment:
-      MINIO_ROOT_USER: rootuser
-      MINIO_ROOT_PASSWORD: password123
-      MINIO_ADDRESS: ":9000"
-      MINIO_CONSOLE_ADDRESS: ":9090"
-    volumes:
-      - "minio:/data"
-    ports:
-      - 9000:9000
-      - 9090:9090
-
-volumes:
-  minio:
+      EXTRA_PIP_PACKAGES: adlfs databricks-sdk
+      PREFECT_API_KEY: ${PREFECT_API_KEY}
+      PREFECT_API_URL: ${PREFECT_API_URL}
+      AZURE_STORAGE_ACCOUNT_NAME: ${AZURE_STORAGE_ACCOUNT_NAME}
+      AZURE_STORAGE_ACCOUNT_KEY: ${AZURE_STORAGE_ACCOUNT_KEY}
 
 networks:
   default:

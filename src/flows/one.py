@@ -1,38 +1,38 @@
 """Example flow"""
-from prefect import flow
+# pylint: disable=duplicate-code
+from prefect import filesystems, flow, task
 from prefect.deployments import Deployment
-from prefect.filesystems import RemoteFileSystem
 from prefect.server.schemas.schedules import CronSchedule
 
 
+@task
+def some_task(user_name: str) -> str:
+    """some task"""
+    return f"Hello from task from {user_name}"
+
+
 @flow(name="One", log_prints=True)
-def main_flow():
+def main_flow(user: str = "User"):
     """flow docstring"""
-    print("Hi from Prefect: Flow One")
+    print(some_task(user_name=user))
 
 
-def deploy():
+def deployment() -> Deployment:
     """deploy docstring"""
-
-    minio_block = RemoteFileSystem(
-        basepath="s3://flows",
-        settings={
-            "key": "aJFHyZQTwOHi1MVAP3gv",
-            "secret": "KW7Asnh50iRUxLwMDVno6o8ACH5BT6i6luqrpZgT",
-            "client_kwargs": {"endpoint_url": "http://minio:9000"},
-        },
-    )
-
-    deployment = Deployment.build_from_flow(
+    return Deployment.build_from_flow(  # type: ignore
         flow=main_flow,
         name="daily_run",
         schedule=CronSchedule(cron="0 9 * * *", timezone="America/Chicago"),
         tags=["test"],
-        apply=True,
-        storage=minio_block,
+        storage=filesystems.Azure.load("azure-fs"),
+        load_existing=False,
+        # skip_upload=True,
+        # apply=True,
+        path="flows",
     )
-    print(deployment)
 
 
 if __name__ == "__main__":
-    deploy()
+    # main_flow()
+    deploy = deployment()
+    print(f"Deployed '{deploy.flow_name}' as '{deploy.apply()}'")

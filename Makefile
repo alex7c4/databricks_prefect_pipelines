@@ -29,7 +29,7 @@ pytest:
 	poetry run pytest --cache-clear --capture=no --verbose --disable-warnings --color=yes ./tests
 
 lib:
-	poetry build --format wheel
+	poetry build --format sdist
 
 clean:
 	rm -rf ./.*_cache ./dist ./.python-version
