@@ -56,4 +56,5 @@ jobs:
         env:
           PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
           PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
-        run: poetry run python3 src/flows/one.py && poetry run python3 src/flows/two.py
+        working-directory: ./src/flows
+        run: poetry run python3 one.py && poetry run python3 two.py
