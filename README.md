@@ -16,7 +16,7 @@ Following things will be needed:
 
 1) Setup Azure Databricks and create token for your account.
 2) Create container `flows` in Azure Storage.
-3) Prepare `.env` file: `cp .env_template .env` and fill your secrets.
+3) Prepare `.env` file from an [`.env_template`](.env_template): `cp .env_template .env` and fill your secrets.
 4) Launch local Prefect Agent and Prefect CLI with `docker compose`:
     ```shell
     docker compose up --remove-orphans --force-recreate --pull always
@@ -29,7 +29,7 @@ Following things will be needed:
     ```shell
     docker exec -it databricks_pipelines-cli-1 python3 maintenance/make_block_remote_storage.py
     ```
-6) Deploy two existing flows:
+6) Deploy two existing flows _(also will be done by CI)_:
     ```shell
     docker exec -it databricks_pipelines-cli-1 bash -c "python3 one.py && python3 two.py"
     ```
