@@ -35,3 +35,29 @@ Following things will be needed:
     ```
 
 Now you should be able to trigger Databricks jobs from Prefect Cloud UI.
+
+### CI flow
+GitHub Actions CI/CD flow defined under [`.github/workflows`](.github/workflows):
+```mermaid
+---
+title: CI flow
+---
+flowchart LR
+
+    subgraph pr[Pull request flow]
+    direction TB
+        A1[Install Python and dependencies] -->
+        B1[Static checks] -->
+        C1[Unit tests] -->
+        D1[Upload test results]
+    end
+
+    subgraph deploy[Merge to master flow]
+    direction TB
+        A2[Upload notebooks to Databricks] -->
+        B2[Build and upload Python lib to Databricks] -->
+        C2[Deploy Prefect Flows to Prefect Cloud]
+    end
+
+    pr --> deploy
+```
