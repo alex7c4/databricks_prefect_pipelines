@@ -1,5 +1,4 @@
 """Script to build and upload 'pipelines_lib'"""
-# pylint: disable=duplicate-code
 import os
 from pathlib import Path
 from pprint import pprint
@@ -10,7 +9,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-LOCAL_WHL_PATH = Path("./dist/databricks_pipelines-0.0.1.tar.gz")
+LOCAL_LIB_PATHS = (
+    Path("./dist/databricks_pipelines-0.0.1.tar.gz"),
+    Path("./dist/databricks_pipelines-0.0.1-py3-none-any.whl"),
+)
 
 
 def main():
@@ -20,8 +22,10 @@ def main():
 
     workspace_client = WorkspaceClient()
 
-    with LOCAL_WHL_PATH.open(mode="rb") as fileo:
-        workspace_client.dbfs.upload(path=f"dbfs:/FileStore/jars/{LOCAL_WHL_PATH.name}", src=fileo, overwrite=True)
+    for f_path in LOCAL_LIB_PATHS:
+        print(f"Uploading '{f_path}'")
+        with f_path.open(mode="rb") as fileo:
+            workspace_client.dbfs.upload(path=f"dbfs:/FileStore/jars/{f_path.name}", src=fileo, overwrite=True)
 
     pprint(list(workspace_client.dbfs.list(path="dbfs:/FileStore/", recursive=True)), width=150)
 

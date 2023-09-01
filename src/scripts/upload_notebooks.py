@@ -1,5 +1,4 @@
 """Script to upload pipelines to Databricks"""
-# pylint: disable=duplicate-code
 from pathlib import Path
 
 from databricks.sdk import WorkspaceClient

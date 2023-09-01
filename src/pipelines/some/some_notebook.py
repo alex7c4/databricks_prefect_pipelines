@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %pip install -U /dbfs/FileStore/jars/databricks_pipelines-0.0.1.tar.gz
+# %pip install -U /dbfs/FileStore/jars/databricks_pipelines-0.0.1.tar.gz
 
 # COMMAND ----------
 

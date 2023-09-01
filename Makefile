@@ -28,8 +28,12 @@ pytest_ci:
 pytest:
 	poetry run pytest --cache-clear --capture=no --verbose --disable-warnings --color=yes ./tests
 
+checks_all: checks pytest
+
 lib:
-	poetry build --format sdist
+	# 'sdist' for notebooks, 'wheel' for jobs
+	poetry build --format sdist && poetry build --format wheel
+	ls -1 ./dist
 
 clean:
 	rm -rf ./.*_cache ./dist ./.python-version

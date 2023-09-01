@@ -6,6 +6,7 @@ from pprint import pprint
 
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.service import compute, jobs
+from databricks.sdk.service.compute import Library
 from prefect import filesystems, flow, task
 from prefect.deployments import Deployment
 
@@ -64,6 +65,7 @@ def make_job_setting(workspace_client: WorkspaceClient, task_key: str, job_name:
             custom_tags={"ResourceClass": "SingleNode"},
             enable_elastic_disk=True,
         ),
+        libraries=[Library(whl="dbfs:/FileStore/jars/databricks_pipelines-0.0.1-py3-none-any.whl")],
     )
     db_job = jobs.JobSettings(name=job_name, tasks=[db_task], max_concurrent_runs=1, timeout_seconds=0)
     return db_job
