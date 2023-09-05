@@ -2,8 +2,7 @@ services:
 
   # Prefect Agent
   agent:
-    image: prefecthq/prefect:2-python3.11
-    restart: always
+    image: prefecthq/prefect:2.12-python3.11
     command: prefect agent start --pool default-agent-pool --work-queue default
     environment:
       EXTRA_PIP_PACKAGES: adlfs databricks-sdk
@@ -14,12 +13,13 @@ services:
 
   # Prefect CLI
   cli:
-    image: prefecthq/prefect:2-python3.11
+    image: prefecthq/prefect:2.12-python3.11
     tty: true  # keep running
-    working_dir: "/root/flows"
+    working_dir: "/root/databricks_pipelines"
     volumes:
-      - "./src/flows:/root/flows"
+      - "./:/root/databricks_pipelines"
     environment:
+      PYTHONPATH: "/root/databricks_pipelines"
       EXTRA_PIP_PACKAGES: adlfs databricks-sdk
       PREFECT_API_KEY: ${PREFECT_API_KEY}
       PREFECT_API_URL: ${PREFECT_API_URL}

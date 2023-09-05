@@ -56,5 +56,4 @@ jobs:
         env:
           PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
           PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
-        working-directory: ./src/flows
-        run: poetry run python3 one.py && poetry run python3 two.py
+        run: for FILE in src/flows/*.py; do poetry run python3 $FILE; done  # todo: make separate deployment

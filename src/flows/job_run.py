@@ -141,7 +141,7 @@ def deployment() -> Deployment:
         tags=["test"],
         storage=filesystems.Azure.load("azure-fs"),
         load_existing=False,
-        path="flows",
+        path="flows2",
         # apply=True,
     )
 

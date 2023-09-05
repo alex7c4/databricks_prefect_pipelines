@@ -34,6 +34,8 @@ Following things will be needed:
 6) Deploy two existing flows _(also will be done by CI)_:
     ```shell
     docker exec -it databricks_pipelines-cli-1 bash -c "python3 one.py && python3 two.py"
+    # or manually:
+    docker exec -it databricks_pipelines-cli-1 bash
     ```
 
 Now you should be able to trigger Databricks jobs from Prefect Cloud UI.

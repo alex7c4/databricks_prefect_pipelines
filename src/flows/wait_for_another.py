@@ -1,20 +1,23 @@
-"""Example flow"""
-# pylint: disable=duplicate-code
 from prefect import filesystems, flow, task
 from prefect.deployments import Deployment
-from prefect.server.schemas.schedules import CronSchedule
+
+from src.flows.dummy import main_flow as dummy_flow
+from src.flows.job_run import main_flow as databricks_job_run_flow
+from src.flows_lib.dummy import dummy_func
 
 
 @task
-def some_task(user_name: str) -> str:
+def task_1(val: int) -> str:
     """some task"""
-    return f"Hello from task from {user_name}"
+    return f"Run this task with '{val}'"
 
 
-@flow(name="One", log_prints=True)
-def main_flow(user: str = "User"):
+@flow(name="Wait another flows", log_prints=True)
+def main_flow():
     """flow docstring"""
-    print(some_task(user_name=user))
+    _ = databricks_job_run_flow()  # wait another flow
+    _ = dummy_flow()  # wait another flow
+    print(task_1(val=dummy_func()))
 
 
 def deployment() -> Deployment:
@@ -22,17 +25,13 @@ def deployment() -> Deployment:
     return Deployment.build_from_flow(  # type: ignore
         flow=main_flow,
         name="daily_run",
-        schedule=CronSchedule(cron="0 9 * * *", timezone="America/Chicago"),
         tags=["test"],
         storage=filesystems.Azure.load("azure-fs"),
         load_existing=False,
-        # skip_upload=True,
-        # apply=True,
-        path="flows",
+        path="flows2",
     )
 
 
 if __name__ == "__main__":
-    # main_flow()
     deploy = deployment()
     print(f"Deployed '{deploy.flow_name}' as '{deploy.apply()}'")
