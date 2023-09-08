@@ -49,11 +49,10 @@ def make_job_setting(workspace_client: WorkspaceClient, task_key: str, job_name:
         timeout_seconds=0,
         new_cluster=compute.ClusterSpec(
             spark_version=workspace_client.clusters.select_spark_version(long_term_support=True),
-            node_type_id="Standard_DS3_v2",
-            driver_node_type_id="Standard_DS3_v2",
+            node_type_id="Standard_F4",
+            driver_node_type_id="Standard_F4",
             num_workers=0,
             spark_conf={
-                "spark.databricks.delta.preview.enabled": True,
                 "spark.master": "local[*, 4]",
                 "spark.databricks.cluster.profile": "singleNode",
             },

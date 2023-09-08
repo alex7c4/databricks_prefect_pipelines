@@ -29,7 +29,7 @@ Following things will be needed:
     ```
 5) Register your storage as a Block into a Prefect Cloud:
     ```shell
-    docker exec -it databricks_pipelines-cli-1 python3 maintenance/make_block_remote_storage.py
+    docker exec -it databricks_pipelines-cli-1 python3 src/flows/maintenance/make_block_remote_storage.py
     ```
 6) Deploy two existing flows _(also will be done by CI)_:
     ```shell
