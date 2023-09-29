@@ -4,6 +4,7 @@
 # COMMAND ----------
 
 import pyspark.sql.functions as F
+import pyspark.sql.types as T
 from pyspark.sql import DataFrame
 
 from src.pipelines_lib.databricks import get_dbutils
@@ -36,7 +37,7 @@ def transform(source_df: DataFrame) -> DataFrame:
         source_df
         .groupBy(F.col("State Code").alias("state_code"))
         .agg(
-            F.round(F.avg("2015 median sales price"), 2).alias("2015_median_sales_price_avg"),
+            F.round(F.avg("2015 median sales price"), 2).cast(T.FloatType()).alias("2015_median_sales_price_avg"),
         )
         .orderBy(F.col("2015_median_sales_price_avg").desc())
     )  # fmt: skip
