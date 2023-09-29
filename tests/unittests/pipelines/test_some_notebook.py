@@ -1,6 +1,7 @@
 """Tests for some_notebook pipeline"""
 import pytest
 from pyspark.sql import SparkSession
+from pyspark.testing.utils import assertDataFrameEqual
 
 from src.pipelines.some.some_notebook import transform
 from src.pipelines_lib.schemas.data_schemas import PopulationVsPriceProcessedSchema, PopulationVsPriceSchema
@@ -27,8 +28,9 @@ def test_some_notebook(spark_session: SparkSession, input_data: list[dict], expe
     result_df = transform(source_df=input_df)
 
     # show
-    result_df.show(100, truncate=False)
-    expected_df.show(100, truncate=False)
+    # result_df.show(100, truncate=False)
+    # expected_df.show(100, truncate=False)
+    # result_df.printSchema()
+    # expected_df.printSchema()
 
-    # TODO: create better DF compare
-    assert result_df.collect() == expected_df.collect()
+    assertDataFrameEqual(actual=result_df, expected=expected_df)

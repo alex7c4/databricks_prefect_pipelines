@@ -85,7 +85,9 @@ python-dotenv = "*"
 pydantic = "1.*"
 
 [tool.poetry.group.dev.dependencies]
-pyspark = "3.4.*"
+pyspark = "3.5.*"
+pandas = "2.*"
+pyarrow = "13.*"
 prefect = "2.12.*"  # will use docker
 databricks-sdk = "*"  # present at databricks runtime
 adlfs = "*"
